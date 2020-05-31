@@ -1,22 +1,16 @@
 const rec = {
   countdown: function countdown(num) {
-    if (num > 0) return countdown(num - 1)
+    console.log(num)
+    if (num >= 1) return countdown(num - 1)
   },
 
   sum: function sum(n) {
     return n === 1 ? 1 : n + sum(n - 1)
   },
 
-  // wrong
-  sub: function sub(n) {
-    console.log('n =', n)
-
-    if (n === 1) {
-      return -1
-    }
-
-    return n + (n - sub(n - 1) * -1)
-  },
+  // As substraction isn't commutative,
+  // you have to calculate first the number to substract
+  sub: (n) => n - rec.sum(n - 1),
 
   fac: function fac(n) {
     return n === 1 ? 1 : n * fac(n - 1)
@@ -28,12 +22,12 @@ const rec = {
     else return (n % 10) + sumDigit(n / 10)
   },
 
-  makeTree: function makeTree(categories, parent) {
+  makeTreeByTaxonomy: function makeTree(arr, taxonomy) {
     let node = {}
-    categories
-      .filter((c) => c.parent === parent)
+    arr
+      .filter((c) => c.taxonomy === taxonomy)
       .forEach((c) => {
-        node[c.id] = makeTree(categories, c.id)
+        node[c.id] = makeTree(arr, c.id)
       })
 
     return node
